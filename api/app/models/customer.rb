@@ -3,5 +3,6 @@
 class Customer < ApplicationRecord
   validates :name, presence: true
 
+  has_one :loyalty_stat
   has_many :orders
 end

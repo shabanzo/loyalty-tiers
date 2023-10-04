@@ -13,6 +13,16 @@ RSpec.describe Customer do
     expect(customer).not_to be_valid
   end
 
+  it 'has one loyalty_stat' do
+    customer = create(:customer)
+    expect(customer.loyalty_stat).to be_nil
+
+    loyalty_stat = create(:loyalty_stat, customer: customer)
+    customer.reload
+
+    expect(customer.loyalty_stat).to eq(loyalty_stat)
+  end
+
   it 'has many orders' do
     customer = create(:customer)
     order1 = create(:order, customer: customer)
