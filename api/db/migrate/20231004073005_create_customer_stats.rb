@@ -10,6 +10,6 @@ class CreateCustomerStats < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :customer_stats, :customer_id
+    add_index :customer_stats, :customer_id, unique: true
   end
 end
