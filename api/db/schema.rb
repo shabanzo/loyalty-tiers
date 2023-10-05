@@ -14,14 +14,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_074138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "customers", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "loyalty_stats", force: :cascade do |t|
-    t.bigint "customer_id", null: false
+    t.integer "customer_id"
     t.bigint "tier_id", null: false
     t.integer "total_spent_cents"
     t.datetime "created_at", null: false
@@ -31,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_074138) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.bigint "customer_id", null: false
+    t.integer "customer_id"
     t.integer "total_in_cents"
     t.datetime "date"
     t.datetime "created_at", null: false
@@ -47,7 +41,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_074138) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "loyalty_stats", "customers"
   add_foreign_key "loyalty_stats", "tiers"
-  add_foreign_key "orders", "customers"
 end

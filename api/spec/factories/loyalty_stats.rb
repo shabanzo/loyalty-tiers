@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :loyalty_stat do
-    customer
+    customer_id { Faker::Number.number(digits: 3) }
     tier
     total_spent_cents { 1000 }
   end

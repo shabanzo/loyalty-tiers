@@ -3,10 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Order do
-  it 'belongs to a customer' do
-    customer = create(:customer)
-    order = create(:order, customer: customer)
+  it 'is valid with a customer id and tier' do
+    order = build(:order)
+    expect(order).to be_valid
+  end
 
-    expect(order.customer).to eq(customer)
+  it 'is invalid without a customer id' do
+    order = build(:order, customer_id: nil)
+    expect(order).not_to be_valid
   end
 end
