@@ -6,6 +6,9 @@ class Api::V1::CompletedOrdersController < ApplicationController
     order = CompletedOrder.new(payload_ins.params)
 
     if order.save
+      LoyaltyStats::CalculateJob.perform_async(
+        order.customer_id, order.total_in_cents
+      )
       render json: order, status: :created
     else
       render json: order.errors, status: :unprocessable_entity
