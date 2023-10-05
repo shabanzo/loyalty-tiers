@@ -25,6 +25,22 @@ services:
     volumes:
       - .:/app
     command: bundle exec sidekiq
+  cron:
+    container_name: cron
+    build: .
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        whenever --update-crontab
+        crontab -l
+        crond -f
   redis:
     image: redis:7-alpine
     container_name: redis
