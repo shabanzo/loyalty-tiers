@@ -22,7 +22,7 @@ Naming/PredicateName:
   Enabled: false
 
 RSpec/MultipleExpectations:
-  Max: 5
+  Max: 10
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
