@@ -25,4 +25,12 @@ RSpec.describe LoyaltyStat do
     loyalty_stat = create(:loyalty_stat, tier: tier)
     expect(loyalty_stat.tier).to eq(tier)
   end
+
+  it 'validates the uniqueness of customer_id' do
+    existing_loyalty_stat = create(:loyalty_stat, tier: tier)
+    loyalty_stat = build(:loyalty_stat, customer_id: existing_loyalty_stat.customer_id, tier: tier)
+
+    expect(loyalty_stat).not_to be_valid
+    expect(loyalty_stat.errors[:customer_id]).to include('has already been taken')
+  end
 end

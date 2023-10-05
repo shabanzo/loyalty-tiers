@@ -3,5 +3,5 @@
 class LoyaltyStat < ApplicationRecord
   belongs_to :tier
 
-  validates :customer_id, presence: true
+  validates :customer_id, presence: true, uniqueness: true
 end
