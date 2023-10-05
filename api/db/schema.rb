@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_04_074138) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_05_090559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "completed_orders", force: :cascade do |t|
+    t.integer "customer_id"
+    t.integer "total_in_cents"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "order_id"
+    t.index ["customer_id"], name: "index_completed_orders_on_customer_id"
+    t.index ["date"], name: "index_completed_orders_on_date"
+  end
 
   create_table "loyalty_stats", force: :cascade do |t|
     t.integer "customer_id"
@@ -22,16 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_074138) do
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_loyalty_stats_on_customer_id"
     t.index ["tier_id"], name: "index_loyalty_stats_on_tier_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.integer "customer_id"
-    t.integer "total_in_cents"
-    t.datetime "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_orders_on_customer_id"
-    t.index ["date"], name: "index_orders_on_date"
   end
 
   create_table "tiers", force: :cascade do |t|

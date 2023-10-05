@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Order < ApplicationRecord
+class CompletedOrder < ApplicationRecord
   validates :customer_id, presence: true
 end
