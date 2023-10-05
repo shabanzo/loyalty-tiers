@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_090559) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_05_100706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,8 +27,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_090559) do
 
   create_table "loyalty_stats", force: :cascade do |t|
     t.integer "customer_id"
-    t.bigint "tier_id", null: false
-    t.integer "total_spent_cents"
+    t.bigint "tier_id", default: 1, null: false
+    t.integer "total_spent_cents", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_loyalty_stats_on_customer_id"
