@@ -3,23 +3,53 @@
 module LoyaltyStats
   class AnnualGenerator
     def call
-      LoyaltyStat.in_batches.each do |relation|
-        # 'Update to Bronze'
-        relation.where(total_spent_cents: 0).update_all(tier_id: 1)
+      LoyaltyStat.this_year.in_batches.each do |relation|
+        new_stats = []
+        # Assign new Bronze LoyaltyStats for next year
+        new_stats += assign_bronze_stats(relation)
 
-        # 'Update to Gold'
-        relation.where(
-          'total_spent_cents >= ?', gold.min_spent_cents
-        ).update_all(tier_id: gold.id, total_spent_cents: 0)
+        # Assign new Silver LoyaltyStats for next year
+        new_stats += assign_silver_stats(relation)
 
-        # 'Update to Silver'
-        relation.where(
-          'total_spent_cents >= ?', silver.min_spent_cents
-        ).update_all(tier_id: silver.id, total_spent_cents: 0)
+        # Assign new Gold LoyaltyStats for next year
+        new_stats += assign_gold_stats(relation)
+
+        # Create LoyaltyStats for next year in bulk
+        LoyaltyStat.insert_all(new_stats)
       end
     end
 
     private
+
+    def assign_bronze_stats(relation)
+      relation.where(
+        'total_spent_cents < ?', silver.min_spent_cents
+      ).select(
+        "customer_id, 1 AS tier_id, #{next_year} AS year"
+      ).as_json(except: :id)
+    end
+
+    def assign_silver_stats(relation)
+      relation.where(
+        'total_spent_cents >= ? AND total_spent_cents < ?',
+        silver.min_spent_cents,
+        gold.min_spent_cents
+      ).select(
+        "customer_id, 2 AS tier_id, #{next_year} AS year"
+      ).as_json(except: :id)
+    end
+
+    def assign_gold_stats(relation)
+      relation.where(
+        'total_spent_cents >= ?', gold.min_spent_cents
+      ).select(
+        "customer_id, 3 AS tier_id, #{next_year} AS year"
+      ).as_json(except: :id)
+    end
+
+    def next_year
+      @next_year ||= Date.current.next_year.year
+    end
 
     def gold
       @gold ||= Tier.find(3)
