@@ -53,5 +53,33 @@ RSpec.describe Api::V1::CompletedOrdersController do
         expect(parsed_response).to include('customer_id')
       end
     end
+
+    context 'with duplicate data' do
+      let(:duplicate_payload) do
+        {
+          customerId:   123,
+          customerName: 'Taro Suzuki',
+          orderId:      'T123',
+          totalInCents: 3450,
+          date:         '2022-03-04T05:29:59.850Z'
+        }
+      end
+
+      before do
+        create(
+          :completed_order,
+          customer_id: duplicate_payload[:customerId],
+          order_id:    duplicate_payload[:orderId]
+        )
+      end
+
+      it 'returns unprocessable_entity status' do
+        post :create, params: duplicate_payload, format: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        parsed_response = JSON.parse(response.body)
+        expect(parsed_response).to include('order_id')
+      end
+    end
   end
 end
