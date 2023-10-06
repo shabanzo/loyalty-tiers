@@ -15,7 +15,7 @@ class LoyaltyStats::CalculateJob
   end
 
   def prev_year
-    @prev_year ||= current_year - 1
+    @prev_year ||= Date.current.prev_year.year
   end
 
   def find_current_stats(customer_id)
