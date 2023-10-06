@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_100706) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_104344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,7 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_100706) do
     t.integer "total_spent_cents", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_loyalty_stats_on_customer_id"
+    t.integer "year"
+    t.index ["customer_id", "year"], name: "index_loyalty_stats_on_customer_id_and_year", unique: true
     t.index ["tier_id"], name: "index_loyalty_stats_on_tier_id"
   end
 
