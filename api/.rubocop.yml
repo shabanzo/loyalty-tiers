@@ -21,6 +21,9 @@ Metrics/BlockLength:
 Naming/PredicateName:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 10
+
 RSpec/MultipleExpectations:
   Max: 10
 
