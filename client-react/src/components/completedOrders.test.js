@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import CompletedOrders from './completedOrders.component.';
 
 describe('CompletedOrders Component', () => {
-  it('renders the component with initial state', async () => {
+  it('renders the component with data', async () => {
     // Mock a successful fetch response
     const mockData = [
       { id: 1, date: '2023-01-01', total_in_cents: 1000 },
