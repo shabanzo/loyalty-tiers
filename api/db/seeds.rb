@@ -14,10 +14,54 @@ Tier.create(id: 2, name: 'Silver', min_spent_cents: 10_000) if Tier.where(id: 2)
 Tier.create(id: 3, name: 'Gold', min_spent_cents: 50_000) if Tier.where(id: 3).blank?
 
 if Rails.env == 'development'
-  puts '=== Generating Dummy Orders ==='
+  CompletedOrder.delete_all
+  LoyaltyStat.delete_all
+  puts '=== Generating Dummy Orders for Customer ID: 1 ==='
   FactoryBot.create_list(
     :completed_order,
     50,
     customer_id: 1
+  )
+  puts '=== Generating Dummy Stats for Customer ID: 1 that match with Completed Orders ==='
+  total_spending_this_year = CompletedOrder.where(
+    'customer_id = ? AND date >= ?', 1, Date.current.beginning_of_year
+  ).sum(:total_in_cents)
+
+  total_spending_last_year = CompletedOrder.where(
+    'customer_id = ? AND date >= ?', 1, Date.current.last_year.beginning_of_year
+  ).sum(:total_in_cents)
+
+  current_tier = Tier.where('min_spent_cents <= ?', total_spending_this_year + total_spending_last_year).first
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       1,
+    total_spent_cents: total_spending_this_year,
+    year:              Date.current.year,
+    tier:              current_tier
+  )
+
+  prev_tier = Tier.where('min_spent_cents <= ?', total_spending_last_year).first
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       1,
+    total_spent_cents: total_spending_last_year,
+    year:              Date.current.last_year.year,
+    tier:              prev_tier
+  )
+
+  puts '=== Generating Dummy Stats for Customer ID: 2 ==='
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       2,
+    total_spent_cents: 5000,
+    year:              Date.current.last_year.year,
+    tier_id:           1
+  )
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       2,
+    total_spent_cents: 10_000,
+    year:              Date.current.year,
+    tier_id:           2
   )
 end
