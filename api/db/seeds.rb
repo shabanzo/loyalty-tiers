@@ -31,7 +31,7 @@ if Rails.env == 'development'
     'customer_id = ? AND date >= ?', 1, Date.current.last_year.beginning_of_year
   ).sum(:total_in_cents)
 
-  current_tier = Tier.where('min_spent_cents <= ?', total_spending_this_year + total_spending_last_year).first
+  current_tier = Tier.where('min_spent_cents <= ?', total_spending_this_year + total_spending_last_year).last
   FactoryBot.create(
     :loyalty_stat,
     customer_id:       1,
@@ -40,7 +40,7 @@ if Rails.env == 'development'
     tier:              current_tier
   )
 
-  prev_tier = Tier.where('min_spent_cents <= ?', total_spending_last_year).first
+  prev_tier = Tier.where('min_spent_cents <= ?', total_spending_last_year).last
   FactoryBot.create(
     :loyalty_stat,
     customer_id:       1,
