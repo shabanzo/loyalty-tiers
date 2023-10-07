@@ -5,6 +5,11 @@ FactoryBot.define do
     customer_id { Faker::Number.unique.number(digits: 3) }
     order_id { Faker::Number.unique.number(digits: 3) }
     total_in_cents { Faker::Number.between(from: 1, to: 99_999) }
-    date { Date.today }
+    date do
+      Faker::Date.between(
+        from: Date.current.last_year.beginning_of_year,
+        to:   Date.current
+      )
+    end
   end
 end

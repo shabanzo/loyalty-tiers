@@ -17,7 +17,9 @@ class Api::V1::CompletedOrdersController < ApplicationController
 
   def index
     completed_orders = CompletedOrder.where(
-      customer_id: params[:customer_id]
+      'customer_id = ? AND date >= ?',
+      params[:customer_id],
+      Date.current.last_year.beginning_of_year
     ).order(order).offset((page - 1) * per_page).limit(per_page)
     render json: completed_orders, status: :ok
   end
