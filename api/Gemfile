@@ -53,13 +53,15 @@ group :development, :test do
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+
+  # For testing purpose
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :test do
   # For testing purpose
 
-  gem 'factory_bot_rails'
-  gem 'faker'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
 end
