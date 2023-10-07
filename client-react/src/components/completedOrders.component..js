@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BaseURL } from '../constants';
+import { BeautifyCurrency, BeautifyDate } from '../helpers';
 
 const CompletedOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,11 +13,6 @@ const CompletedOrders = () => {
     return fetch(url)
       .then((res) => res.json())
       .then((data) => setOrders(data));
-  };
-
-  const beautifyDate = (isoDate) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(isoDate).toLocaleDateString(undefined, options);
   };
 
   useEffect(() => {
@@ -54,8 +50,8 @@ const CompletedOrders = () => {
             {orders.map((order) => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>{beautifyDate(order.date)}</td>
-                <td>${(order.total_in_cents / 100).toFixed(2)}</td>
+                <td>{BeautifyDate(order.date)}</td>
+                <td>{BeautifyCurrency(order.total_in_cents)}</td>
               </tr>
             ))}
           </tbody>
