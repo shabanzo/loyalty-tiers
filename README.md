@@ -15,16 +15,16 @@
 docker-compose up -d api sidekiq cron
 ```
 
-3. Build the frontend image, inside `react` directory using:
+3. Build the frontend image, inside `client-react` directory using:
 
 ```
-docker build -t react .
+docker build -t client-react .
 ```
 
-4. Run the frontend application, inside `react` directory using:
+4. Run the frontend application, inside `client-react` directory using:
 
 ```
-docker run --name react -p 3000:3000 react
+docker run --name client-react -p 3000:3000 client-react
 ```
 
 ## Testing
