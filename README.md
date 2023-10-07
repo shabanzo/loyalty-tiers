@@ -1,8 +1,8 @@
 # Loyalty Tiers
 
-## Requirements & System Design
+## Documentation: Requirements & System Design
 
-[Miro Board - My Doodle!](https://miro.com/app/board/uXjVNe9FqYw=/?share_link_id=553528671218)
+[Miro Board](https://miro.com/app/board/uXjVNe9FqYw=/?share_link_id=553528671218)
 
 ## Getting Started
 
