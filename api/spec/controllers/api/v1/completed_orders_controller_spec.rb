@@ -82,4 +82,48 @@ RSpec.describe Api::V1::CompletedOrdersController do
       end
     end
   end
+
+  describe 'GET #index' do
+    let(:customer_id) { 123 }
+    let(:completed_orders) do
+      create_list(:completed_order, 10, customer_id: customer_id)
+    end
+
+    before do
+      completed_orders
+    end
+
+    it 'paginates results with default order, per_page and page' do
+      get :index, params: { customer_id: customer_id, format: :json }
+
+      expect(response).to have_http_status(:ok)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response.length).to eq(10)
+      expect(parsed_response.first['id']).to be < parsed_response.last['id']
+    end
+
+    it 'paginates results with custom order' do
+      get :index, params: { customer_id: customer_id, order: 'total_in_cents DESC', format: :json }
+
+      expect(response).to have_http_status(:ok)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response.first['total_in_cents']).to be > parsed_response.last['total_in_cents']
+    end
+
+    it 'paginates results with custom per_page and page' do
+      get :index, params: { customer_id: customer_id, per_page: 5, page: 2, format: :json }
+
+      expect(response).to have_http_status(:ok)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response.length).to eq(5)
+    end
+
+    it 'returns an empty list if no completed orders are found' do
+      get :index, params: { customer_id: 456, format: :json }
+
+      expect(response).to have_http_status(:ok)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response).to be_empty
+    end
+  end
 end

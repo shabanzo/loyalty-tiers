@@ -15,11 +15,30 @@ class Api::V1::CompletedOrdersController < ApplicationController
     end
   end
 
+  def index
+    completed_orders = CompletedOrder.where(
+      customer_id: params[:customer_id]
+    ).order(order).offset((page - 1) * per_page).limit(per_page)
+    render json: completed_orders, status: :ok
+  end
+
   private
 
   def order_params
     params.permit(
       :customerId, :customerName, :orderId, :totalInCents, :date
     )
+  end
+
+  def per_page
+    params[:per_page] ? params[:per_page].to_i : 10
+  end
+
+  def page
+    params[:page] ? params[:page].to_i : 1
+  end
+
+  def order
+    params[:order] || 'id ASC'
   end
 end
