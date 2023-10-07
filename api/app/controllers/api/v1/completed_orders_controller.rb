@@ -7,7 +7,7 @@ class Api::V1::CompletedOrdersController < ApplicationController
 
     if order.save
       LoyaltyStats::CalculateJob.perform_async(
-        order.customer_id, order.total_in_cents
+        order.id
       )
       render json: order, status: :created
     else

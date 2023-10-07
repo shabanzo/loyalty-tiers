@@ -15,14 +15,23 @@ RSpec.describe LoyaltyStats::CalculateJob, type: :job do
             total_spent_cents: 500
           )
         end
+        let(:completed_order) do
+          create(
+            :completed_order,
+            customer_id:    loyalty_stat.customer_id,
+            total_in_cents: 50,
+            date:           Date.current
+          )
+        end
 
         before do
           loyalty_stat
+          completed_order
         end
 
         it 'updates total spent' do
           expect {
-            described_class.new.perform(loyalty_stat.customer_id, 50)
+            described_class.new.perform(completed_order.id)
           }.to change {
             loyalty_stat.reload.total_spent_cents
           }.from(500).to(550)
@@ -30,7 +39,7 @@ RSpec.describe LoyaltyStats::CalculateJob, type: :job do
 
         it 'keeps the tier' do
           expect {
-            described_class.new.perform(loyalty_stat.customer_id, 50)
+            described_class.new.perform(completed_order.id)
           }.not_to(change do
             loyalty_stat.reload.tier.name
           end)
@@ -48,13 +57,23 @@ RSpec.describe LoyaltyStats::CalculateJob, type: :job do
           )
         end
 
+        let(:completed_order) do
+          create(
+            :completed_order,
+            customer_id:    loyalty_stat.customer_id,
+            total_in_cents: 9_500,
+            date:           Date.current
+          )
+        end
+
         before do
           loyalty_stat
+          completed_order
         end
 
         it 'updates total spent' do
           expect {
-            described_class.new.perform(loyalty_stat.customer_id, 9_500)
+            described_class.new.perform(completed_order.id)
           }.to change {
             loyalty_stat.reload.total_spent_cents
           }.from(500).to(10_000)
@@ -62,7 +81,7 @@ RSpec.describe LoyaltyStats::CalculateJob, type: :job do
 
         it 'updates the tier' do
           expect {
-            described_class.new.perform(loyalty_stat.customer_id, 9_500)
+            described_class.new.perform(completed_order.id)
           }.to change {
             loyalty_stat.reload.tier.name
           }.from('Bronze').to('Silver')
@@ -72,33 +91,51 @@ RSpec.describe LoyaltyStats::CalculateJob, type: :job do
 
     context 'when the stat is not existed' do
       context 'when get an new order with totalInCents = 500' do
+        let(:completed_order) do
+          create(
+            :completed_order,
+            customer_id:    999,
+            total_in_cents: 500,
+            date:           Date.current
+          )
+        end
+
         before do
-          described_class.new.perform(2, 500)
+          described_class.new.perform(completed_order.id)
         end
 
         it 'creates a loyalty stats and updates total spent' do
-          loyalty_stat = LoyaltyStat.find_by(customer_id: 2)
+          loyalty_stat = LoyaltyStat.find_by(customer_id: 999)
           expect(loyalty_stat.total_spent_cents).to eq(500)
         end
 
         it 'keeps the default one' do
-          loyalty_stat = LoyaltyStat.find_by(customer_id: 2)
+          loyalty_stat = LoyaltyStat.find_by(customer_id: 999)
           expect(loyalty_stat.tier.name).to eq('Bronze')
         end
       end
 
       context 'when get an new order with totalInCents = 10_000' do
+        let(:completed_order) do
+          create(
+            :completed_order,
+            customer_id:    999,
+            total_in_cents: 10_000,
+            date:           Date.current
+          )
+        end
+
         before do
-          described_class.new.perform(2, 10_000)
+          described_class.new.perform(completed_order.id)
         end
 
         it 'creates a loyalty stats and updates total spent' do
-          loyalty_stat = LoyaltyStat.find_by(customer_id: 2)
+          loyalty_stat = LoyaltyStat.find_by(customer_id: 999)
           expect(loyalty_stat.total_spent_cents).to eq(10_000)
         end
 
         it 'updates the tier from the default one (Bronze to Silver)' do
-          loyalty_stat = LoyaltyStat.find_by(customer_id: 2)
+          loyalty_stat = LoyaltyStat.find_by(customer_id: 999)
           expect(loyalty_stat.tier.name).to eq('Silver')
         end
       end

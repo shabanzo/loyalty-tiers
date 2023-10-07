@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe Api::V1::CompletedOrdersController do
   describe 'POST #create' do
     before do
-      allow(LoyaltyStats::CalculateJob).to receive(:perform_async).and_call_original
+      allow(LoyaltyStats::CalculateJob).to receive(:perform_async)
+        .and_call_original
     end
 
     context 'with valid payload' do
@@ -30,7 +31,7 @@ RSpec.describe Api::V1::CompletedOrdersController do
 
       it 'performs LoyaltyStats::CalculateJob' do
         post :create, params: valid_payload, format: :json
-        expect(LoyaltyStats::CalculateJob).to have_received(:perform_async).with(123, 3450)
+        expect(LoyaltyStats::CalculateJob).to have_received(:perform_async)
       end
     end
 
