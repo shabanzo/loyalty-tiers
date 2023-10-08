@@ -6,6 +6,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   border-radius: 20px;
+  color: #333;
 }
 
 .container h1 {
@@ -73,4 +74,112 @@
 
 .next-button:hover {
   background-color: #000;
+}
+
+/* LoyaltyStats.css */
+.stats-container {
+  text-align: center;
+}
+
+.information-card {
+  padding: 10%;
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 0 10px gray;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.information-tier {
+  color: #333;
+  font: 800 20px system-ui;
+  margin: 0 0 2rem;
+}
+
+.information-total-spending {
+  font: 800 40px system-ui;
+  margin: 0 0 2rem;
+}
+
+@keyframes progressAnimationStrike {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--target-width);
+  }
+}
+
+.progress {
+  margin: 0 0 2rem;
+
+  padding: 6px;
+  border-radius: 1rem;
+  background: #333;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
+    0 1px rgba(255, 255, 255, 0.08);
+}
+
+.progress-bar {
+  height: 18px;
+  background-color: #ee303c;
+  border-radius: 1rem;
+  transition: 0.4s linear;
+  transition-property: width, background-color;
+}
+
+.progress-moved .progress-bar {
+  background-color: #fcbc51;
+  background-image: linear-gradient(
+    45deg,
+    rgb(252, 163, 17) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgb(252, 163, 17) 50%,
+    rgb(252, 163, 17) 75%,
+    transparent 75%,
+    transparent
+  );
+  animation: progressAnimationStrike 5s;
+}
+
+.important-information {
+  color: #333;
+}
+
+.information-retain {
+  margin: 0 0 2rem;
+  width: 50%;
+  padding: 1rem 1rem 2rem;
+  border-radius: 1rem;
+}
+
+.information-retain h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.information-retain p {
+  text-align: left;
+}
+
+.information-downgrade {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.information-label {
+  flex: 1;
+  width: 50%;
+  font-weight: bold;
+  text-align: left;
+}
+
+.information-value {
+  flex: 2;
+  width: 50%;
+  font-weight: bold;
+  text-align: left;
 }
