@@ -1,6 +1,6 @@
 # Loyalty Tiers
 
-## Documentation: Requirements & System Design
+## Documentation: Requirements, Plan, Solution, System Design, & API Documentation
 
 [Miro Board](https://miro.com/app/board/uXjVNe9FqYw=/?share_link_id=553528671218)
 
