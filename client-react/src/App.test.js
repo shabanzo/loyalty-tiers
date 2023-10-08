@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import App from './App';
 import CompletedOrders from './components/completedOrders.component';
 import LoyaltyStats from './components/loyaltyStats.component';
 
@@ -18,7 +17,9 @@ describe('App Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText('Completed Orders')).toBeInTheDocument();
+    expect(
+      screen.getByText('Customer#123 - Completed Orders')
+    ).toBeInTheDocument();
   });
 
   it('renders the LoyaltyStats component when the route matches', () => {
@@ -33,6 +34,8 @@ describe('App Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.queryByText('Loyalty Stats')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Customer#123 - Loyalty Stats')
+    ).toBeInTheDocument();
   });
 });

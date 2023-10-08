@@ -23,10 +23,10 @@ describe('LoyaltyStats Component', () => {
     render(<LoyaltyStats />);
 
     // Wait for data to load
-    await waitFor(() => screen.getByText('Gold'));
+    await waitFor(() => screen.getByText('GOLD'));
 
     // Assert that the component renders with the initial data
-    expect(screen.getByText('Gold')).toBeInTheDocument();
+    expect(screen.getByText('GOLD')).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(1);
 
     fetchMock.mockRestore();
