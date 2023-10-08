@@ -64,4 +64,36 @@ if Rails.env == 'development'
     year:              Date.current.year,
     tier_id:           2
   )
+
+  puts '=== Generating Dummy Stats for Customer ID: 3 ==='
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       3,
+    total_spent_cents: 15_000,
+    year:              Date.current.last_year.year,
+    tier_id:           2
+  )
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       3,
+    total_spent_cents: 0,
+    year:              Date.current.year,
+    tier_id:           2
+  )
+
+  puts '=== Generating Dummy Stats for Customer ID: 4 ==='
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       4,
+    total_spent_cents: 40_000,
+    year:              Date.current.last_year.year,
+    tier_id:           3
+  )
+  FactoryBot.create(
+    :loyalty_stat,
+    customer_id:       4,
+    total_spent_cents: 15_000,
+    year:              Date.current.year,
+    tier_id:           3
+  )
 end
