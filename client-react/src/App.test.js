@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
-import CompletedOrders from './components/completedOrders.component.';
+import CompletedOrders from './components/completedOrders.component';
 import LoyaltyStats from './components/loyaltyStats.component';
 
 describe('App Component', () => {

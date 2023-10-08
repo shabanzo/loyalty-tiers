@@ -36,7 +36,7 @@ const CompletedOrders = () => {
 
   return (
     <div className="container">
-      <h1>Completed Orders</h1>
+      <h1>Customer#{params.customerId} - Completed Orders</h1>
       <div>
         <table className="completed-orders-table">
           <thead>

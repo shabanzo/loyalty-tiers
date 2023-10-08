@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import CompletedOrders from './components/completedOrders.component.';
+import CompletedOrders from './components/completedOrders.component';
 import LoyaltyStats from './components/loyaltyStats.component';
 
 function App() {
